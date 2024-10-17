@@ -15,7 +15,6 @@ public class DataBaseConnection {
     private static String usuario = "postgres";
     private static String password = "postgres";
     private static String url = driver + host+ porto + "/" + sid;
-
     /**
      * Metodo que devuelve la conexion con la bd
      * @return Conexion
@@ -24,7 +23,7 @@ public class DataBaseConnection {
         try {
             return DriverManager.getConnection(url, usuario, password);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Error en la conexion a la base de datos: " + e.getMessage());
             return null;
         }
     }
