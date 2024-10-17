@@ -6,8 +6,16 @@ import app.model.dao.ProductDAO;
 import java.sql.SQLException;
 
 public class Main {
+    /**
+     * Query para listar productos
+     */
     private static String query = "SELECT * FROM produtos";
+    /**
+     * Metodo principal
+     * @param args
+     */
     public static void main(String[] args) {
+        //como no tengo el try-cacht en los metodos tengo que ponerlo en el main
         try {
             ProductDAO dao = new ProductDAO(query);
             dao.listarProductos();
@@ -19,10 +27,4 @@ public class Main {
             System.out.println("Error en la base de datos: " + e.getMessage());
         }
     }
-
-//    public static void listarProdutos() {
-//        for (Product p : ProductDAO.listaProdutos()) {
-//            System.out.println(p.getCodigo() + " " + p.getDescricion() + " " + p.getPrezo() + " " + p.getDatac());
-//        }
-//    }
 }

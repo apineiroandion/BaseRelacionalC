@@ -6,11 +6,28 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase con los metodos para acceder a la base de datos
+ */
 public class ProductDAO{
+    /**
+     * Conexion con la base de datos
+     */
     private Connection connection;
+    /**
+     * Sentencia para ejecutar las consultas
+     */
     private Statement statement;
+    /**
+     * Resultado de la consulta
+     */
     private ResultSet resultSet;
 
+    /**
+     * Constructor con la consulta a ejecutar
+     * @param query consulta
+     * @throws SQLException
+     */
     public ProductDAO(String query) throws SQLException {
         connection = DataBaseConnection.getConnection();
         statement = connection.createStatement(
@@ -19,6 +36,11 @@ public class ProductDAO{
         );
         resultSet = statement.executeQuery(query);
     }
+
+    /**
+     * Metodo para listar los productos
+     * @throws SQLException
+     */
     public void listarProductos() throws SQLException {
         resultSet.beforeFirst();
         while (resultSet.next()) {
@@ -28,6 +50,13 @@ public class ProductDAO{
             System.out.println("Código: " + codigo + ", Nombre: " + nombre + ", Precio: " + precio);
         }
     }
+
+    /**
+     * Metodo para actualizar el precio de un producto
+     * @param codigo
+     * @param nuevoPrecio
+     * @throws SQLException
+     */
     public void actualizarProducto(String codigo, Integer nuevoPrecio) throws SQLException {
         resultSet.beforeFirst();
         while (resultSet.next()) {
@@ -39,6 +68,14 @@ public class ProductDAO{
             }
         }
     }
+
+    /**
+     * Metodo para insertar un producto
+     * @param codigo
+     * @param descripcion
+     * @param precio
+     * @throws SQLException
+     */
     public void insertarProducto(String codigo, String descripcion, Integer precio) throws SQLException {
         resultSet.moveToInsertRow();
         resultSet.updateString("codigo", codigo);
@@ -47,6 +84,12 @@ public class ProductDAO{
         resultSet.insertRow();
         System.out.println("Producto "+codigo+" insertado: "+descripcion+", "+precio);
     }
+
+    /**
+     * Metodo para borrar un producto
+     * @param codigo
+     * @throws SQLException
+     */
     public void borrarProducto(String codigo) throws SQLException {
         resultSet.beforeFirst();
         while (resultSet.next()) {
@@ -58,6 +101,10 @@ public class ProductDAO{
         }
     }
 
+    /**
+     * Metodo para cerrar la conexion
+     * @throws SQLException
+     */
     public void cerrar() throws SQLException {
         if (resultSet != null) resultSet.close();
         if (statement != null) statement.close();
