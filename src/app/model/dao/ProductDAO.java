@@ -110,4 +110,47 @@ public class ProductDAO{
         if (statement != null) statement.close();
         if (connection != null) connection.close();
     }
+
+    /**
+     * Metodo para obter o metadata
+     * @return Metadata
+     * @throws SQLException
+     */
+    public ResultSetMetaData obterMetadata() throws SQLException {
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        return metaData;
+    }
+
+    /**
+     * Metodo para obter o numero de columnas
+     * @param metaData
+     * @return Numero de columnas
+     * @throws SQLException
+     */
+    public int obterColumnas(ResultSetMetaData metaData) throws SQLException {
+        return metaData.getColumnCount();
+    }
+
+    /**
+     * Metodo para obter o nome da columna
+     * @param columna
+     * @param metaData
+     * @return Nome da columna
+     * @throws SQLException
+     */
+    public String obterNomeColumna(int columna, ResultSetMetaData metaData) throws SQLException {
+        return metaData.getColumnName(columna);
+    }
+
+    /**
+     * Metodo para obter o tipo da columna
+     * @param columna
+     * @param metaData
+     * @return Tipo da columna
+     * @throws SQLException
+     */
+    public String obterTipoColumna(int columna, ResultSetMetaData metaData) throws SQLException {
+        return metaData.getColumnTypeName(columna);
+    }
+
 }

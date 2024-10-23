@@ -3,6 +3,7 @@ package app;
 import app.model.Product;
 import app.model.dao.ProductDAO;
 
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 public class Main {
@@ -15,16 +16,27 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        //como no tengo el try-cacht en los metodos tengo que ponerlo en el main
-        try {
-            ProductDAO dao = new ProductDAO(query);
-            dao.listarProductos();
-            dao.actualizarProducto("p2", 8);
-            dao.insertarProducto("p4", "martelo", 20);
-            dao.borrarProducto("p3");
-            dao.cerrar();
+        try{
+            ProductDAO productDAO = new ProductDAO(query);
+            productDAO.listarProductos();
+            ResultSetMetaData metaData = productDAO.obterMetadata();
+            System.out.println("Numero de columnas: " +productDAO.obterColumnas(metaData));
+            imprimirDatosColumnas(metaData, productDAO.obterColumnas(metaData));
         } catch (SQLException e) {
-            System.out.println("Error en la base de datos: " + e.getMessage());
+            System.out.println("Error en la conexion a la base de datos: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Metodo para imprimir los datos de las columnas
+     * @param metaData
+     * @param numColumnas
+     * @throws SQLException
+     */
+    public static void imprimirDatosColumnas(ResultSetMetaData metaData, int numColumnas) throws SQLException {
+        for (int i = 1; i <= numColumnas; i++) {
+            System.out.println("Nome da columna " + i + ": " + metaData.getColumnName(i));
+            System.out.println("Tipo de dato da columna " + i + ": " + metaData.getColumnTypeName(i));
         }
     }
 }
